@@ -205,7 +205,7 @@ namespace InvoiceApp.Web.Controllers
 
 
 
-        [HttpPost("customers{customerId}/invoices/add")]
+        [HttpPost("customers/{customerId}/invoices/add")]
         public IActionResult AddInvoice(CustomerInvoicesViewModel viewModel, int customerId)
         {
 

@@ -1,4 +1,3 @@
-```markdown
 # 🧾 Invoice Management App (ASP.NET MVC)
 
 Welcome to the **Invoice Management App**, a powerful, cleanly architected web application built using the **ASP.NET MVC Framework**. Designed for small to mid-sized businesses, this app simplifies how you manage your **clients, invoices, and customer records** — all in one intuitive interface.
@@ -34,8 +33,9 @@ In a world flooded with complex ERP systems, this app brings **clarity and simpl
 - **ASP.NET Core MVC** (.NET 8)
 - **C#**
 - **Razor Views**
-- **Entity Framework** (optional integration ready)
-- **Bootstrap (optional CSS styling)**
+- **Entity Framework Core** with **SQL Server** (migrations included)
+- **Bootstrap** for styling
+- **xUnit + Moq** for controller tests
 
 ---
 ## 🚀 Getting Started
@@ -46,13 +46,21 @@ In a world flooded with complex ERP systems, this app brings **clarity and simpl
 
 ### Installation
 ```bash
-git clone https://github.com/your-username/Invoice-Management-App-MVC.git
+git clone https://github.com/mercyy1/Invoice-Management-App-MVC.git
 cd Invoice-Management-App-MVC
 dotnet restore
+dotnet ef database update --project InvoiceApp.DataAccess --startup-project InvoiceApp.Web
 dotnet run --project InvoiceApp.Web
-````
+```
 
-Then navigate to `http://localhost:5000/customers` in your browser.
+The connection string in `InvoiceApp.Web/appsettings.json` points at a local SQL Server (`Server=localhost`) using Windows authentication. Change it if your database runs elsewhere. The `dotnet ef` command (install with `dotnet tool install --global dotnet-ef`) creates the tables from the included migration.
+
+Then open `http://localhost:5062/customers` in your browser (the port comes from `Properties/launchSettings.json`).
+
+### Running the tests
+```bash
+dotnet test
+```
 
 ---
 
@@ -69,7 +77,7 @@ Then navigate to `http://localhost:5000/customers` in your browser.
 Behind the scenes:
 
 * `CustomerController` orchestrates routing and input.
-* `IInvoiceManagerService` handles business logic (plug in a DB or use in-memory).
+* `IInvoiceManagerService` handles business logic, backed by Entity Framework Core and SQL Server.
 * Razor Views render dynamic customer lists with categories.
 * TempData ensures feedback persists across redirects.
 
